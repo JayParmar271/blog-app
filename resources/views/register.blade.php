@@ -94,6 +94,13 @@
           }
       },
 
+      mounted() {
+        accessToken = localStorage.getItem('accessToken')
+        if (accessToken) {
+          window.location.href = 'posts'
+        }
+      },
+
       methods: {
           register() {
               axios.post('/api/register', {

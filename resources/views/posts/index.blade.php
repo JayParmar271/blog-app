@@ -48,7 +48,7 @@
         <ul>
           <li v-for="post in posts">
             <h2>@{{ post.title }}</h2>
-            <img :src="post.image" />
+            <img :src="post.image"/>
             <p>@{{ post.description }}</p>
           </li>
         </ul>

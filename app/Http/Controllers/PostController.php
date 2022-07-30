@@ -15,6 +15,16 @@ class PostController extends Controller
         return response()->json(['posts' => $posts], 200);
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|max:50',
+            'description' => 'required|max:25500',
+        ]);
+
+        return response()->json(['posts' => $posts], 200);
+    }
+
     public function update(Request $request, Post $post)
     {
         if (! Gate::allows('update-post', $post)) {

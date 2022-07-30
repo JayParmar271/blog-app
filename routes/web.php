@@ -22,5 +22,9 @@ Route::get('/login', function () {
 });
 
 Route::get('/posts', function () {
-    return view('posts');
+    return view('posts.index');
+});
+
+Route::get('/posts/create', function () {
+    return view('posts.create');
 });
