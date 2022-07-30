@@ -21,5 +21,13 @@
     </head>
     <body>
         <div id="app">{{ $slot }}</div>
+
+        <script>
+        accessToken = localStorage.getItem('accessToken');
+
+        const config = {
+            headers: { Authorization: `Bearer ${accessToken}` }
+        };
+        </script>
     </body>
 </html>

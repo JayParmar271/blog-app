@@ -18,14 +18,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::get('posts', [PostController::class, 'index']);
 
 Route::middleware('auth:api')->group(function() {
+    Route::get('/posts/{post}', [PostController::class, 'edit']);
+    Route::get('posts', [PostController::class, 'index']);
     Route::get('get-user', [AuthController::class, 'userInfo']);
     Route::post('posts/', [PostController::class, 'store'])->name('posts.store');
-    Route::patch('posts/{post}', [PostController::class, 'update'])->name('posts.update');
+    Route::patch('posts/{post}', [PostController::class, 'edit'])->name('posts.edit');
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});

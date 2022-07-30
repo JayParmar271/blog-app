@@ -9,7 +9,7 @@
             <div class="row justify-content-center">
               <div class="col-md-10 col-lg-12 col-xl-5 order-2 order-lg-1">
 
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Add new post</p>
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Update post</p>
 
                 <div v-if="errors" class="bg-danger rounded p-3 mb-5">
                   <div v-for="(v, k) in errors" :key="k">
@@ -19,13 +19,13 @@
                   </div>
                 </div>
 
-                <form class="mx-1 mx-md-4" @submit.prevent="create">
+                <form class="mx-1 mx-md-4" @submit.prevent="update">
 
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
                       <label class="form-label" for="form3Example3c">Title</label>
-                      <input v-model="title" name="title" type="text" id="form3Example3c" class="form-control" />
+                      <input name="title" type="text" id="form3Example3c" class="form-control"  v-model="title" />
                     </div>
                   </div>
 
@@ -33,7 +33,7 @@
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
                       <label class="form-label" for="form3Example4c">Description</label>
-                      <textarea v-model="description" class="form-control"></textarea>
+                      <textarea class="form-control" v-model="description"></textarea>
                     </div>
                   </div>
 
@@ -54,22 +54,34 @@
 
 </x-layout>
 
-
 <script>
   Vue.createApp({
       data() {
           return {
+              errors: null,
               title: '',
               description: '',
-              errors: null,
           }
       },
 
+      mounted() {
+          axios.get('http://127.0.0.1:8000/api/posts/30', config)
+            .then((response) => {
+              console.log(response.data.post.title);
+              this.title = response.data.post.title,
+              this.description = response.data.post.description
+            })
+            .catch( (error) => {
+              this.errors = error.response.data.errors
+            });
+      },
+
       methods: {
-          create() {
-              axios.post('/api/posts', {
+          update() {
+              axios.post('http://127.0.0.1:8000/api/posts/30', {
                   title: this.title,
-                  description: this.description
+                  description: this.description,
+                  _method: 'patch'
                  }, config)
                 .then( (response) => {
                   this.title = ''
@@ -77,7 +89,7 @@
 
                   location.href = location.origin + '/posts'
 
-                  alert('post created successfully')
+                  alert('post updated successfully')
                 })
                 .catch( (error) => {
                   window.scrollTo(0, 0);

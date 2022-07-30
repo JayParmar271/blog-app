@@ -13,6 +13,20 @@ class Post extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+        'image',
+        'category_id',
+        'user_id',
+    ];
+
+    /**
      * Get the comments for the blog post.
      */
     public function comments()

@@ -9,7 +9,12 @@
             <div class="row justify-content-center">
               <div class="col-md-10 col-lg-6 col-xl-12 order-2 order-lg-1">
 
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">All Posts</p>
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
+                  All Posts
+                </p>
+                <center>
+                  <h5><a href="posts/create">Create new post</a></h5>
+                </center>
 
                 <div id="posts">
                   @{{ posts }}
@@ -31,13 +36,15 @@
       data() {
           return {
               posts: null,
+              userId: '',
           }
       },
 
       mounted() {
-          axios.get('/api/posts')
+          axios.get('/api/posts', config)
             .then( (response) => {
-              this.posts = response.data.posts
+              this.posts = response.data.posts,
+              this.userId = response.data.userId
             })
             .catch( (error) => {
               this.errors = error.response.data.errors
@@ -47,7 +54,12 @@
       template: `
         <ul>
           <li v-for="post in posts">
-            <h2>@{{ post.title }}</h2>
+            <h2 v-if="post.user_id != userId">
+              @{{ post.title }}
+            </h2>
+            <h2 v-if="post.user_id == userId">
+              <a :href="'/posts/' + post.id">@{{ post.title }}</a>
+            </h2>
             <img :src="post.image"/>
             <p>@{{ post.description }}</p>
           </li>
