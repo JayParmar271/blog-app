@@ -9,7 +9,12 @@
             <div class="row justify-content-center">
               <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Login</p>
+
+                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    Don't have account?
+                    <a href='/' class="text-black"> SignUp</a>
+                </div>
 
                 <div v-if="errors" class="bg-danger rounded p-3 mb-5">
                   <div v-for="(v, k) in errors" :key="k">
@@ -19,15 +24,7 @@
                   </div>
                 </div>
 
-                <form class="mx-1 mx-md-4" @submit.prevent="register">
-
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <input v-model="name" type="text" id="form3Example1c" class="form-control" />
-                      <label class="form-label" for="form3Example1c">Your Name</label>
-                    </div>
-                  </div>
+                <form class="mx-1 mx-md-4" @submit.prevent="login">
 
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
@@ -45,21 +42,8 @@
                     </div>
                   </div>
 
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <input v-model="password_confirmation" name="password_confirmation" type="password" id="form3Example4cd" class="form-control" />
-                      <label class="form-label" for="form3Example4cd">Repeat your password</label>
-                    </div>
-                  </div>
-
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="submit" class="btn btn-primary btn-lg">Register</button>
-                  </div>
-
-                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    Already have an account?
-                      <a href='login/' class="text-black">Login</a>
+                    <button type="submit" class="btn btn-primary btn-lg">Login</button>
                   </div>
 
                 </form>
@@ -86,29 +70,23 @@
   Vue.createApp({
       data() {
           return {
-              name: '',
               email: '',
               password: '',
-              password_confirmation: '',
               errors: null,
           }
       },
 
       methods: {
-          register() {
-              axios.post('/api/register', {
-                  name: this.name,
+          login() {
+              axios.post('/api/login', {
                   email: this.email,
-                  password: this.password,
-                  password_confirmation: this.password_confirmation
-                })
+                  password: this.password
+                 })
                 .then( (response) => {
-                  this.name = ''
                   this.email = ''
                   this.password = ''
-                  this.password_confirmation = ''
 
-                  window.location.href = '/login'
+                  window.location.href = '/posts'
                 })
                 .catch( (error) => {
                   window.scrollTo(0, 0);

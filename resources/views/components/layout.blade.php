@@ -13,46 +13,6 @@
         <script src="https://unpkg.com/vue@3"></script>
     </head>
     <body>
-        <div id="app">
-            {{ $slot }}
-        </div>
-
-        <script>
-        Vue.createApp({
-            data() {
-                return {
-                    name: '',
-                    email: '',
-                    password: '',
-                    password_confirmation: '',
-                    errors: null,
-                }
-            },
-
-            methods: {
-                register() {
-                    axios.post('/api/register', {
-                        name: this.name,
-                        email: this.email,
-                        password: this.password,
-                        password_confirmation: this.password_confirmation
-                      })
-                      .then( (response) => {
-                        this.name = ''
-                        this.email = ''
-                        this.password = ''
-                        this.password_confirmation = ''
-
-                        window.location.href = '/login'
-                      })
-                      .catch( (error) => {
-                        window.scrollTo(0, 0);
-
-                        this.errors = error.response.data.errors
-                      });
-                }
-            }
-        }).mount('#app')
-        </script>
+        <div id="app">{{ $slot }}</div>
     </body>
 </html>

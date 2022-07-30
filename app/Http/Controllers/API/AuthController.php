@@ -29,6 +29,11 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
         $data = [
             'email' => $request->email,
             'password' => $request->password,
@@ -38,7 +43,9 @@ class AuthController extends Controller
             $token = auth()->user()->createToken('Token')->accessToken;
             return response()->json(['token' => $token], 200);
         } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            $error = new \stdClass();
+            $error->message = ['Your email address and password combination were not recognised.'];
+            return response()->json(['errors' => $error], 401);
         }
      }
 
