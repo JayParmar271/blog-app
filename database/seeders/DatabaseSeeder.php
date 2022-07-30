@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Database\Seeders\CategorySeeder;
+use Database\Seeders\CommentSeeder;
+use Database\Seeders\PostSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +19,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             CategorySeeder::class,
+            PostSeeder::class,
+            CommentSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();
