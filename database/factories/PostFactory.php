@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,6 +23,7 @@ class PostFactory extends Factory
             'slug' => fake()->slug(),
             'description' => fake()->text(),
             'image' => 'https://source.unsplash.com/random',
+            'user_id' => User::factory()->create()->id,
             'category_id' => Category::factory()->create()->id,
         ];
     }
