@@ -2,10 +2,16 @@
 1. Clone the project
 
 2. Set up database and migrate the database
-    - php artisan migrate --seed
+    ```sh
+    php artisan migrate --seed
+    ```
 
 3. Create passport client
-    - php artisan passport:install --uuids
+    ```sh
+    php artisan passport:install --uuids
+    ```
 
 4. Run the project
-    - php artisan serve
+    ```sh
+    php artisan serve
+    ```
