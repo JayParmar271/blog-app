@@ -37,7 +37,11 @@ class PostController extends Controller
             'title' => 'required|max:50',
             'description' => 'required|max:25500',
             'category' => 'required',
+            'image' => 'required',
         ]);
+
+        $imageName = time() .'.' .$request->image->getClientOriginalExtension();
+        $request->image->move(public_path('images'), $imageName);
 
         $slug = Str::slug($request->title);
 
@@ -45,7 +49,7 @@ class PostController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'slug' => $slug,
-            'image' => 'https://source.unsplash.com/random',
+            'image' => env('APP_URL') . '/images/' . $imageName,
             'category_id' => $request->category,
             'user_id' => auth()->user()->id,
         ]);
@@ -68,7 +72,14 @@ class PostController extends Controller
         $post = Post::find($post->id);
         $post->title = $request->title;
         $post->description = $request->description;
-        $post->category_id = $request->category;;
+        $post->category_id = $request->category;
+
+        if (! empty($request->image)) {
+            $imageName = time() .'.' .$request->image->getClientOriginalExtension();
+            $request->image->move(public_path('images'), $imageName);
+            $post->image = env('APP_URL') . '/images/' . $imageName;
+        }
+
         $post->save();
 
         return response()->json(['post' => $post]);

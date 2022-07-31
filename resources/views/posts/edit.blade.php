@@ -30,6 +30,18 @@
                   </div>
 
                   <div class="d-flex flex-row align-items-center mb-4">
+                    <img :src="this.currentImage"/>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <label class="form-label" for="form3Example4c">Image</label>
+                      <input name="image" type="file" id="form3Example3c" class="form-control" v-on:change="onImageChange" />
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
                       <label class="form-label" for="form3Example4c">Description</label>
@@ -73,53 +85,68 @@
 <script>
   Vue.createApp({
       data() {
-          return {
-              errors: null,
-              title: '',
-              description: '',
-              category: '',
-              categories: null,
-          }
+        return {
+          errors: null,
+          title: '',
+          description: '',
+          category: '',
+          categories: null,
+          image: '',
+          currentImage: '',
+        }
       },
 
       mounted() {
-          axios.get('/api/categories', config)
-            .then((response) => {
-              this.categories = response.data.categories
-            });
+        axios.get('/api/categories', config)
+          .then((response) => {
+            this.categories = response.data.categories
+          });
 
-          axios.get('/api/posts/' + getIDfromURL() + '/edit', config)
-            .then((response) => {
-              this.title = response.data.post.title,
-              this.category = response.data.post.category_id,
-              this.description = response.data.post.description
-            })
-            .catch( (error) => {
-              this.errors = error.response.data.errors
-            });
+        axios.get('/api/posts/' + getIDfromURL() + '/edit', config)
+          .then((response) => {
+            this.title = response.data.post.title,
+            this.category = response.data.post.category_id,
+            this.description = response.data.post.description,
+            this.currentImage = response.data.post.image
+          })
+          .catch( (error) => {
+            this.errors = error.response.data.errors
+          });
       },
 
       methods: {
+          onImageChange(e){
+            this.image = e.target.files[0];
+          },
+
           update() {
-              axios.post('/api/posts/' + getIDfromURL(), {
-                  title: this.title,
-                  description: this.description,
-                  category: this.category,
-                  _method: 'patch'
-                 }, config)
-                .then( (response) => {
-                  this.title = ''
-                  this.description = ''
+            const config = {
+              headers: {
+                'content-type': 'multipart/form-data',
+                'Authorization': `Bearer ${accessToken}`
+              }
+            }
 
-                  location.href = location.origin + '/posts'
+            axios.post('/api/posts/' + getIDfromURL(), {
+                title: this.title,
+                description: this.description,
+                category: this.category,
+                image: this.image,
+                _method: 'patch'
+               }, config)
+              .then( (response) => {
+                this.title = ''
+                this.description = ''
 
-                  alert('post updated successfully')
-                })
-                .catch( (error) => {
-                  window.scrollTo(0, 0);
+                location.href = location.origin + '/posts'
 
-                  this.errors = error.response.data.errors
-                });
+                alert('post updated successfully')
+              })
+              .catch( (error) => {
+                window.scrollTo(0, 0);
+
+                this.errors = error.response.data.errors
+              });
           }
       }
   }).mount('#app')

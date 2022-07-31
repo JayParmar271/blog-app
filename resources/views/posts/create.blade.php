@@ -32,6 +32,14 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
+                      <label class="form-label" for="form3Example4c">Image</label>
+                      <input name="image" type="file" id="form3Example3c" class="form-control" v-on:change="onImageChange" />
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
                       <label class="form-label" for="form3Example4c">Description</label>
                       <textarea v-model="description" class="form-control"></textarea>
                     </div>
@@ -73,6 +81,10 @@
           return {
               errors: null,
               categories: null,
+              title: '',
+              description: '',
+              category: '',
+              image: '',
           }
       },
 
@@ -84,25 +96,37 @@
       },
 
       methods: {
+          onImageChange(e){
+            this.image = e.target.files[0];
+          },
+
           create() {
-              axios.post('/api/posts', {
-                  title: this.title,
-                  description: this.description,
-                  category: this.category
-                 }, config)
-                .then((response) => {
-                  this.title = ''
-                  this.description = ''
+            const config = {
+              headers: {
+                'content-type': 'multipart/form-data',
+                'Authorization': `Bearer ${accessToken}`
+              }
+            }
 
-                  location.href = location.origin + '/posts'
+            axios.post('/api/posts', {
+                title: this.title,
+                description: this.description,
+                category: this.category,
+                image: this.image
+               }, config)
+              .then((response) => {
+                this.title = ''
+                this.description = ''
 
-                  alert('post created successfully')
-                })
-                .catch((error) => {
-                  window.scrollTo(0, 0);
+                location.href = location.origin + '/posts'
 
-                  this.errors = error.response.data.errors
-                });
+                alert('post created successfully')
+              })
+              .catch((error) => {
+                window.scrollTo(0, 0);
+
+                this.errors = error.response.data.errors
+              });
           }
       }
   }).mount('#app')
