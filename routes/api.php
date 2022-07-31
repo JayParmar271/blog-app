@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,5 +28,6 @@ Route::middleware('auth:api')->group(function() {
     Route::get('posts/{post}/edit', [PostController::class, 'edit']);
     Route::get('posts/{post}', [PostController::class, 'show']);
     Route::patch('posts/{post}', [PostController::class, 'update'])->name('posts.update');
+    Route::post('comments', [CommentController::class, 'store'])->name('comments.store');
 });
 

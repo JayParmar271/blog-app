@@ -26,7 +26,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        $post = Post::findOrFail($post->id);
+        $post = Post::with(['comments.user'])->findOrFail($post->id);
 
         return response()->json(['post' => $post], 200);
     }
