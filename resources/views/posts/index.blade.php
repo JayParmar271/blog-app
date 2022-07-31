@@ -64,7 +64,7 @@
 
             <p>@{{ post.description }}</p>
 
-            <h3>Comments</h3>
+            <h3>Comments (@{{ post.comments.length }}) </div></h3>
 
             <div class="flex-row align-items-center mb-2">
               <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
