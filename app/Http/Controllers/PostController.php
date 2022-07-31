@@ -11,7 +11,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->get();
+        $posts = Post::latest()->with(['comments.user'])->get();
         $userId = auth()->user()->id;
 
         return response()->json(['posts' => $posts, 'userId' => $userId], 200);

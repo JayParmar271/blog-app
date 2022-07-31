@@ -56,12 +56,29 @@
           <li v-for="post in posts">
             <p>
               <h2><a :href="'/posts/' + post.id" >@{{ post.title }}</a></h2>
-              <button class="btn btn-info btn-lg text-light" v-if="post.user_id == userId">
-                <a :href="'/posts/' + post.id + '/edit'" >Edit</a>
-              </button>
+              <a :href="'/posts/' + post.id + '/edit'" v-if="post.user_id == userId">
+                <button class="btn btn-info btn-lg text-light">Edit</button>
+              </a>
             </p>
             <img :src="post.image"/>
+
             <p>@{{ post.description }}</p>
+
+            <h3>Comments</h3>
+
+            <div class="flex-row align-items-center mb-2">
+              <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+              <div class="form-outline flex-fill mb-0">
+                <input v-model="comment" name="comment" type="text" placeholder="Write a comment..." class="form-control" />
+              </div>
+            </div>
+
+            <div v-if="post.comments != ''">
+              <p v-for="comment in post.comments">
+                <b>@{{ comment.user.name }} : </b>
+                @{{ comment.comment }}
+              </p>
+            </div>
           </li>
         </ul>
         <br>
