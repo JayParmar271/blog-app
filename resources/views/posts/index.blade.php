@@ -54,12 +54,12 @@
       template: `
         <ul>
           <li v-for="post in posts">
-            <h2 v-if="post.user_id != userId">
-              @{{ post.title }}
-            </h2>
-            <h2 v-if="post.user_id == userId">
-              <a :href="'/posts/' + post.id">@{{ post.title }}</a>
-            </h2>
+            <p>
+              <h2>@{{ post.title }}</h2>
+              <button class="btn btn-info btn-lg text-light" v-if="post.user_id == userId">
+                <a :href="'/posts/' + post.id + '/edit'" >Edit</a>
+              </button>
+            </p>
             <img :src="post.image"/>
             <p>@{{ post.description }}</p>
           </li>

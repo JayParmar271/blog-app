@@ -88,7 +88,7 @@
               this.categories = response.data.categories
             });
 
-          axios.get('/api/posts/' + getIDfromURL(), config)
+          axios.get('/api/posts/' + getIDfromURL() + '/edit', config)
             .then((response) => {
               this.title = response.data.post.title,
               this.category = response.data.post.category_id,

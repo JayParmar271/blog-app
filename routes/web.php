@@ -30,7 +30,7 @@ Route::get('/posts/create', function () {
     return view('posts.create');
 });
 
-Route::get('/posts/{post}', function () {
+Route::get('/posts/{post}/edit', function () {
     return view('posts.edit');
 });
 
