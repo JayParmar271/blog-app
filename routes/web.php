@@ -34,3 +34,7 @@ Route::get('/posts/{post}/edit', function () {
     return view('posts.edit');
 });
 
+Route::get('/posts/{post}', function () {
+    return view('posts.show');
+});
+

@@ -24,6 +24,13 @@ class PostController extends Controller
         return response()->json(['post' => $post], 200);
     }
 
+    public function show(Post $post)
+    {
+        $post = Post::findOrFail($post->id);
+
+        return response()->json(['post' => $post], 200);
+    }
+
     public function store(Request $request)
     {
         $request->validate([

@@ -55,7 +55,7 @@
         <ul>
           <li v-for="post in posts">
             <p>
-              <h2>@{{ post.title }}</h2>
+              <h2><a :href="'/posts/' + post.id" >@{{ post.title }}</a></h2>
               <button class="btn btn-info btn-lg text-light" v-if="post.user_id == userId">
                 <a :href="'/posts/' + post.id + '/edit'" >Edit</a>
               </button>

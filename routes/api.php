@@ -23,8 +23,9 @@ Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:api')->group(function() {
     Route::get('categories', [CategoryController::class, 'index']);
     Route::get('posts', [PostController::class, 'index']);
-    Route::post('posts/', [PostController::class, 'store'])->name('posts.store');
+    Route::post('posts', [PostController::class, 'store'])->name('posts.store');
     Route::get('posts/{post}/edit', [PostController::class, 'edit']);
+    Route::get('posts/{post}', [PostController::class, 'show']);
     Route::patch('posts/{post}', [PostController::class, 'update'])->name('posts.update');
 });
 

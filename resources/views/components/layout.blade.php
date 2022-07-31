@@ -25,7 +25,7 @@
         <script>
         axios.defaults.baseURL = window.location.origin;
 
-        function getIDfromURL(){
+        function getIDfromURL() {
             return window.location.pathname.split('/')[2];
         }
 
