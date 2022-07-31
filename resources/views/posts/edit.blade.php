@@ -37,6 +37,22 @@
                     </div>
                   </div>
 
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <label class="form-label" for="form3Example4c">Category</label>
+                      <select name="category" class="form-control" v-model="category">
+                        <option
+                          :value="category.id"
+                          v-for="category in categories"
+                          :selected="category == category.id"
+                        >
+                          @{{ category.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button type="submit" class="btn btn-primary btn-lg">Save</button>
                   </div>
@@ -61,14 +77,21 @@
               errors: null,
               title: '',
               description: '',
+              category: '',
+              categories: null,
           }
       },
 
       mounted() {
-          axios.get('http://127.0.0.1:8000/api/posts/30', config)
+          axios.get('/api/categories', config)
             .then((response) => {
-              console.log(response.data.post.title);
+              this.categories = response.data.categories
+            });
+
+          axios.get('/api/posts/' + getIDfromURL(), config)
+            .then((response) => {
               this.title = response.data.post.title,
+              this.category = response.data.post.category_id,
               this.description = response.data.post.description
             })
             .catch( (error) => {
@@ -78,9 +101,10 @@
 
       methods: {
           update() {
-              axios.post('http://127.0.0.1:8000/api/posts/30', {
+              axios.post('/api/posts/' + getIDfromURL(), {
                   title: this.title,
                   description: this.description,
+                  category: this.category,
                   _method: 'patch'
                  }, config)
                 .then( (response) => {

@@ -23,6 +23,12 @@
         <div id="app">{{ $slot }}</div>
 
         <script>
+        axios.defaults.baseURL = window.location.origin;
+
+        function getIDfromURL(){
+            return window.location.pathname.split('/')[2];
+        }
+
         accessToken = localStorage.getItem('accessToken');
 
         const config = {

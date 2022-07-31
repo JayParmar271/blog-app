@@ -29,6 +29,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|max:50',
             'description' => 'required|max:25500',
+            'category' => 'required',
         ]);
 
         $slug = Str::slug($request->title);
@@ -38,7 +39,7 @@ class PostController extends Controller
             'description' => $request->description,
             'slug' => $slug,
             'image' => 'https://source.unsplash.com/random',
-            'category_id' => '1',
+            'category_id' => $request->category,
             'user_id' => auth()->user()->id,
         ]);
 
@@ -54,12 +55,13 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|max:50',
             'description' => 'required|max:25500',
+            'category' => 'required',
         ]);
 
         $post = Post::find($post->id);
         $post->title = $request->title;
         $post->description = $request->description;
-        $post->category_id = '1';
+        $post->category_id = $request->category;;
         $post->save();
 
         return response()->json(['post' => $post]);

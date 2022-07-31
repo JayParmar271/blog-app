@@ -37,6 +37,18 @@
                     </div>
                   </div>
 
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <label class="form-label" for="form3Example4c">Category</label>
+                      <select name="category" class="form-control" v-model="category">
+                        <option :value="category.id" v-for="category in categories">
+                          @{{ category.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button type="submit" class="btn btn-primary btn-lg">Save</button>
                   </div>
@@ -59,19 +71,26 @@
   Vue.createApp({
       data() {
           return {
-              title: '',
-              description: '',
               errors: null,
+              categories: null,
           }
+      },
+
+      mounted() {
+          axios.get('/api/categories', config)
+            .then((response) => {
+              this.categories = response.data.categories
+            });
       },
 
       methods: {
           create() {
               axios.post('/api/posts', {
                   title: this.title,
-                  description: this.description
+                  description: this.description,
+                  category: this.category
                  }, config)
-                .then( (response) => {
+                .then((response) => {
                   this.title = ''
                   this.description = ''
 
@@ -79,7 +98,7 @@
 
                   alert('post created successfully')
                 })
-                .catch( (error) => {
+                .catch((error) => {
                   window.scrollTo(0, 0);
 
                   this.errors = error.response.data.errors

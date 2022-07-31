@@ -48,10 +48,4 @@ class AuthController extends Controller
             return response()->json(['errors' => $error], 401);
         }
      }
-
-     public function userInfo()
-     {
-        $user = auth()->user();
-        return response()->json(['user' => $user], 200);
-     }
 }
