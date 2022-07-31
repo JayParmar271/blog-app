@@ -59,7 +59,7 @@ class PostController extends Controller
         $post = Post::find($post->id);
         $post->title = $request->title;
         $post->description = $request->description;
-        $post->category_id = $request->category_id;
+        $post->category_id = '1';
         $post->save();
 
         return response()->json(['post' => $post]);

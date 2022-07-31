@@ -24,6 +24,6 @@ Route::middleware('auth:api')->group(function() {
     Route::get('posts', [PostController::class, 'index']);
     Route::get('get-user', [AuthController::class, 'userInfo']);
     Route::post('posts/', [PostController::class, 'store'])->name('posts.store');
-    Route::patch('posts/{post}', [PostController::class, 'edit'])->name('posts.edit');
+    Route::patch('posts/{post}', [PostController::class, 'update'])->name('posts.update');
 });
 
