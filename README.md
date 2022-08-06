@@ -1,7 +1,10 @@
 ## About Blog App (https://blogger-app-laravel.herokuapp.com/)
 1. Clone the project
 
-2. Composer install
+2. Install the dependencies
+   ```sh
+   composer install
+   ```
 
 3. Set up database and APP_URL (For image path) in .env file
 
